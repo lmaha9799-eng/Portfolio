@@ -3,10 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bruhhh — AI & Data Science Engineer</title>
+  <title>Portfolio Website</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://lmaha9799-eng.github.io/portfolio/" />
+  <meta property="og:title" content="Portfolio" />
+  <meta property="og:description" content="Second-year CSE student specializing in AIML. Building predictive pipelines, data systems, and responsive intelligent architectures." />
+  <meta property="og:image" content="https://lmaha9799-eng.github.io/portfolio/assets/image/og-preview.png" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://lmaha9799-eng.github.io/portfolio/" />
+  <meta property="twitter:title" content="Portfolio" />
+  <meta property="twitter:description" content="Second-year CSE student specializing in AIML. Building predictive pipelines, data systems, and responsive intelligent architectures." />
+  <meta property="twitter:image" content="https://lmaha9799-eng.github.io/portfolio/assets/image/og-preview.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet" />
+  
   <style>
     /* ─── TOKENS ─────────────────────────────────── */
     :root {
@@ -34,7 +49,25 @@
       --nav-h:       68px;
       --max:         1120px;
     }
+/* ─── FOCUS ──────────────────────────────────── */
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+    :focus:not(:focus-visible) { outline: none; }
 
+    /* Enhanced keyboard focus rings for inputs & textareas */
+    .fg input:focus-visible, 
+    .fg textarea:focus-visible {
+      outline: 2px solid var(--amber) !important;
+      outline-offset: 2px;
+      border-color: var(--amber);
+    }
+
+    /* Button interactive focus states */
+    .btn:focus-visible, 
+    .btn-send:focus-visible {
+      outline: 2px solid var(--text) !important;
+      outline-offset: 4px;
+    }
+    
     /* ─── RESET ──────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -750,8 +783,7 @@
                 <span aria-hidden="true">✓</span> Message sent! I'll get back to you shortly.
               </div>
             </div>
-            <form class="cform" id="cform" novalidate action="#" method="post" aria-labelledby="contact-h">
-              <div class="frow">
+            <form class="cform" action="https://formspree.io/f/YOUR_ID" method="POST" accept-charset="UTF-8" novalidate>  <div class="frow">
                 <div class="fg">
                   <label for="fname">First name <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
                   <input type="text" id="fname" name="first-name" autocomplete="given-name" required aria-required="true" aria-describedby="fname-err" placeholder="Aarav" />
