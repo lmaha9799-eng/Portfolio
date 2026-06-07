@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bruhhh — AI & Data Science Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────── */
+    :root {
+      --bg:          #080c12;
+      --bg1:         #0d1320;
+      --bg2:         #111826;
+      --bg3:         #18202e;
+      --line:        rgba(255,255,255,0.06);
+      --line-hi:     rgba(255,255,255,0.12);
+      --amber:       #f5a623;
+      --amber-dim:   rgba(245,166,35,0.10);
+      --amber-glow:  rgba(245,166,35,0.18);
+      --teal:        #2dd4bf;
+      --teal-dim:    rgba(45,212,191,0.08);
+      --text:        #e8edf5;
+      --text2:       #7a8ba8;
+      --text3:       #3d4f6a;
+      --red:         #f87171;
+      --green:       #4ade80;
+      --r:           10px;
+      --r-sm:        6px;
+      --mono:        'JetBrains Mono', monospace;
+      --serif:       'Playfair Display', Georgia, serif;
+      --sans:        'Syne', system-ui, sans-serif;
+      --nav-h:       68px;
+      --max:         1120px;
+    }
+
+    /* ─── RESET ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+
+    /* ─── GRID OVERLAY ───────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── SKIP LINK ──────────────────────────────── */
+    .skip {
+      position: absolute; top: -100%; left: 1rem; z-index: 9999;
+      background: var(--amber); color: #000;
+      padding: .5rem 1rem; border-radius: var(--r-sm);
+      font-family: var(--mono); font-size: .8rem; font-weight: 500;
+      transition: top .2s;
+    }
+    .skip:focus { top: 1rem; }
+
+    /* ─── FOCUS ──────────────────────────────────── */
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+    :focus:not(:focus-visible) { outline: none; }
+
+    /* ─── UTILITIES ──────────────────────────────── */
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+    .sec  { padding: 7rem 0; }
+    .mono { font-family: var(--mono); }
+    .label {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--mono); font-size: .72rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 1rem;
+    }
+    .label::before {
+      content: ''; display: inline-block;
+      width: 20px; height: 1px; background: var(--amber);
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* ─── NAV ────────────────────────────────────── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h); z-index: 100;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8,12,18,.85);
+      backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      max-width: var(--max); margin: 0 auto; padding: 0 2rem;
+      height: 100%; display: flex; align-items: center;
+      justify-content: space-between; position: relative; z-index: 1;
+    }
+    .logo {
+      font-family: var(--mono); font-size: 1rem; font-weight: 500;
+      letter-spacing: .04em; color: var(--text);
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .logo-dot { color: var(--amber); font-size: 1.4rem; line-height: 0; }
+    .nav-list {
+      display: flex; align-items: center; gap: 2.5rem;
+    }
+    .nav-list a {
+      font-family: var(--mono); font-size: .78rem;
+      letter-spacing: .08em; color: var(--text2);
+      transition: color .2s; position: relative;
+    }
+    .nav-list a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--amber);
+      transform: scaleX(0); transition: transform .25s;
+    }
+    .nav-list a:hover { color: var(--text); }
+    .nav-list a:hover::after { transform: scaleX(1); }
+    .nav-list a[aria-current="page"] { color: var(--amber); }
+    .nav-list a[aria-current="page"]::after { transform: scaleX(1); }
+    .nav-cta {
+      background: var(--amber-dim);
+      border: 1px solid rgba(245,166,35,.35);
+      color: var(--amber) !important;
+      padding: .35rem .9rem;
+      border-radius: var(--r-sm);
+      transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--amber-glow) !important; }
+    .nav-cta::after { display: none !important; }
+    .nav-toggle {
+      display: none; background: none; border: 1px solid var(--line-hi);
+      color: var(--text); padding: .4rem .65rem;
+      border-radius: var(--r-sm); cursor: pointer; font-size: 1.1rem;
+    }
+    @media (max-width: 700px) {
+      .nav-toggle { display: block; }
+      .nav-list {
+        display: none; flex-direction: column; align-items: flex-start;
+        position: absolute; top: var(--nav-h); left: 0; right: 0;
+        background: var(--bg1); border-bottom: 1px solid var(--line);
+        padding: 1.5rem 2rem; gap: 1.4rem;
+      }
+      .nav-list.open { display: flex; }
+    }
+
+    /* ─── HERO ───────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Big ambient circle */
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,.06) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%, -55%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    @media (max-width: 820px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .hero-actions { justify-content: center; }
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--amber-dim); border: 1px solid rgba(245,166,35,.25);
+      border-radius: 100px; padding: .3rem .9rem;
+      font-family: var(--mono); font-size: .72rem; color: var(--amber);
+      margin-bottom: 1.5rem;
+    }
+    .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-h1 em { font-style: italic; color: var(--amber); }
+    .hero-p {
+      font-size: 1.05rem; color: var(--text2);
+      max-width: 480px; margin-bottom: 2.5rem; line-height: 1.8;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.5rem; border-radius: var(--r-sm);
+      font-family: var(--mono); font-size: .82rem; font-weight: 500;
+      letter-spacing: .06em; cursor: pointer; transition: all .2s;
+      border: none; text-transform: uppercase;
+    }
+    .btn-amber { background: var(--amber); color: #0a0a0a; }
+    .btn-amber:hover { background: #ffc04a; transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--line-hi); }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
+
+    /* Hero right — floating terminal card */
+    .hero-card {
+      background: var(--bg2);
+      border: 1px solid var(--line-hi);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,.5);
+    }
+    .card-bar {
+      background: var(--bg3);
+      border-bottom: 1px solid var(--line);
+      padding: .7rem 1rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #f87171; }
+    .dot.y { background: #fbbf24; }
+    .dot.g { background: #4ade80; }
+    .card-title { font-family: var(--mono); font-size: .72rem; color: var(--text3); margin-left: .5rem; letter-spacing: .08em; }
+    .card-body { padding: 1.5rem; font-family: var(--mono); font-size: .82rem; line-height: 2; }
+    .cb-line { display: flex; gap: .75rem; }
+    .cb-prompt { color: var(--amber); user-select: none; }
+    .cb-cmd { color: var(--teal); }
+    .cb-out { color: var(--text2); padding-left: 1.3rem; }
+    .cb-cursor { display: inline-block; width: 8px; height: 14px; background: var(--amber); vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Hero scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--text3);
+      animation: bob 2.4s ease-in-out infinite;
+    }
+    .scroll-arrow { font-size: 1rem; color: var(--amber); }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
+
+    /* ─── MARQUEE STRIP ──────────────────────────── */
+    .marquee-strip {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--bg1);
+      padding: .75rem 0;
+      overflow: hidden;
+      position: relative; z-index: 1;
+    }
+    .marquee-inner {
+      display: flex; gap: 3rem;
+      white-space: nowrap;
+      animation: marquee 25s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: var(--mono); font-size: .72rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--text3);
+      display: flex; align-items: center; gap: .75rem;
+    }
+    .marquee-item::before { content: '◆'; color: var(--amber); font-size: .5rem; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @media (prefers-reduced-motion: reduce) { .marquee-inner { animation: none; } }
+
+    /* ─── ABOUT ──────────────────────────────────── */
+    #about { background: var(--bg1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .about-grid {
+      display: grid; grid-template-columns: 1.1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; gap: 3rem; } }
+    #about h2 { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 700; margin-bottom: 1.25rem; line-height: 1.2; }
+    .about-body p { color: var(--text2); margin-bottom: 1rem; font-size: .95rem; }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-highlight { color: var(--amber); font-style: italic; }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+    .stat-box {
+      background: var(--bg2); padding: 1.5rem;
+      display: flex; flex-direction: column; gap: .25rem;
+      transition: background .2s;
+    }
+    .stat-box:hover { background: var(--bg3); }
+    .stat-num { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .stat-lbl { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin-top: .25rem; }
+
+    /* ─── PROJECTS ───────────────────────────────── */
+    .proj-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+    #projects h2 { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 700; }
+    .proj-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    @media (max-width: 960px) { .proj-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .proj-grid { grid-template-columns: 1fr; } }
+
+    .proj-card {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 1.75rem;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .proj-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--amber), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .proj-card:hover { border-color: var(--line-hi); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+    .proj-card:hover::before { opacity: 1; }
+    .proj-num {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .15em;
+      color: var(--text3); text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .proj-card h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 700; margin-bottom: .75rem; color: var(--text); }
+    .proj-card p { font-size: .875rem; color: var(--text2); line-height: 1.7; flex: 1; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1.25rem 0; }
+    .proj-tag {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .06em;
+      background: var(--bg3); border: 1px solid var(--line-hi);
+      color: var(--text2); padding: .2rem .6rem; border-radius: 4px;
+    }
+    .proj-footer {
+      border-top: 1px solid var(--line); padding-top: 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .proj-metric { font-family: var(--mono); font-size: .72rem; color: var(--green); }
+    .proj-link { font-family: var(--mono); font-size: .72rem; color: var(--amber); letter-spacing: .06em; transition: gap .2s; display: flex; align-items: center; gap: .3rem; }
+    .proj-link:hover { gap: .6rem; }
+    /* Featured card */
+    .proj-card.featured { grid-column: span 2; }
+    @media (max-width: 600px) { .proj-card.featured { grid-column: span 1; } }
+    .proj-card.featured h3 { font-size: 1.5rem; }
+
+    /* ─── SKILLS ─────────────────────────────────── */
+    #skills { background: var(--bg1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    #skills h2 { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 700; margin-bottom: 3rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    @media (max-width: 860px) { .skills-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .skills-grid { grid-template-columns: 1fr; } }
+    .skill-col {
+      background: var(--bg2); border: 1px solid var(--line);
+      border-radius: var(--r); padding: 1.5rem;
+      transition: border-color .2s;
+    }
+    .skill-col:hover { border-color: var(--line-hi); }
+    .skill-col-title {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 1.25rem;
+      padding-bottom: .75rem; border-bottom: 1px solid var(--line);
+    }
+    .skill-item {
+      display: flex; align-items: center; gap: .65rem;
+      padding: .45rem 0;
+      font-size: .875rem; color: var(--text2);
+      border-bottom: 1px solid var(--line);
+      transition: color .2s, padding-left .2s;
+    }
+    .skill-item:last-child { border-bottom: none; }
+    .skill-item:hover { color: var(--text); padding-left: .35rem; }
+    .skill-bar { width: 3px; height: 14px; background: var(--line-hi); border-radius: 2px; flex-shrink: 0; transition: background .2s; }
+    .skill-item:hover .skill-bar { background: var(--amber); }
+
+    /* ─── CERTS ──────────────────────────────────── */
+    #certifications h2 { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 700; margin-bottom: 3rem; }
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1rem; }
+    .cert-card {
+      background: var(--bg2); border: 1px solid var(--line);
+      border-radius: var(--r); padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .cert-card:hover { border-color: var(--line-hi); transform: translateX(4px); }
+    .cert-badge {
+      width: 42px; height: 42px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .cert-badge.a { background: var(--amber-dim); border: 1px solid rgba(245,166,35,.2); }
+    .cert-badge.t { background: var(--teal-dim); border: 1px solid rgba(45,212,191,.2); }
+    .cert-name { font-size: .9rem; font-weight: 500; color: var(--text); margin-bottom: .2rem; }
+    .cert-org { font-family: var(--mono); font-size: .7rem; color: var(--text3); letter-spacing: .06em; }
+
+    /* ─── CONTACT ────────────────────────────────── */
+    #contact { background: var(--bg1); border-top: 1px solid var(--line); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+    @media (max-width: 820px) { .contact-grid { grid-template-columns: 1fr; gap: 3rem; } }
+    #contact h2 { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 700; margin-bottom: 1rem; }
+    .contact-desc { color: var(--text2); font-size: .95rem; margin-bottom: 2rem; }
+
+    .contact-links { display: flex; flex-direction: column; gap: .75rem; }
+    .contact-link-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      background: var(--bg2);
+      color: var(--text2); font-size: .875rem;
+      transition: border-color .2s, color .2s;
+    }
+    .contact-link-item:hover { border-color: var(--amber); color: var(--text); }
+    .contact-link-icon { font-size: 1rem; color: var(--amber); flex-shrink: 0; }
+
+    /* Form */
+    .cform { display: flex; flex-direction: column; gap: 1.1rem; }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 480px) { .frow { grid-template-columns: 1fr; } }
+    .fg { display: flex; flex-direction: column; gap: .4rem; }
+    .fg label { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text2); }
+    .req { color: var(--amber); }
+    .fg input, .fg textarea, .fg select {
+      background: var(--bg3); border: 1px solid var(--line-hi);
+      border-radius: var(--r-sm); color: var(--text);
+      font-family: var(--mono); font-size: .85rem;
+      padding: .7rem .9rem; width: 100%;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .fg input::placeholder, .fg textarea::placeholder { color: var(--text3); }
+    .fg input:focus, .fg textarea:focus, .fg select:focus {
+      border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,166,35,.1); outline: none;
+    }
+    .fg input[aria-invalid="true"], .fg textarea[aria-invalid="true"] { border-color: var(--red); }
+    .fg textarea { min-height: 130px; resize: vertical; }
+    .ferr { font-family: var(--mono); font-size: .7rem; color: var(--red); display: none; }
+    .ferr.show { display: block; }
+    .form-note { font-family: var(--mono); font-size: .7rem; color: var(--text3); }
+    .fsuccess {
+      background: rgba(74,222,128,.08); border: 1px solid rgba(74,222,128,.25);
+      border-radius: var(--r-sm); padding: 1rem 1.25rem;
+      font-family: var(--mono); font-size: .82rem; color: var(--green);
+      display: none; align-items: center; gap: .75rem;
+    }
+    .fsuccess.show { display: flex; }
+    .btn-send {
+      align-self: flex-start;
+      background: var(--amber); color: #0a0a0a;
+      border: none; border-radius: var(--r-sm);
+      padding: .75rem 1.75rem; font-family: var(--mono);
+      font-size: .8rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .btn-send:hover { background: #ffc04a; }
+    .btn-send:active { transform: scale(.98); }
+    .btn-send:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ─── FOOTER ─────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 2.5rem 0; position: relative; z-index: 1;
+    }
+    .foot-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .foot-logo { font-family: var(--mono); font-size: .85rem; color: var(--text3); }
+    .foot-nav { display: flex; gap: 1.75rem; }
+    .foot-nav a { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); transition: color .2s; }
+    .foot-nav a:hover { color: var(--amber); }
+    .foot-copy { font-family: var(--mono); font-size: .68rem; color: var(--text3); }
+
+    /* ─── SCROLL ANIMATIONS ──────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+      .reveal.in { opacity: 1; transform: none; }
+      .reveal-l { opacity: 0; transform: translateX(-22px); transition: opacity .65s ease, transform .65s ease; }
+      .reveal-l.in { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip" href="#main-content">Skip to main content</a>
+
+  <!-- NAV -->
+  <header class="site-header" role="banner">
+    <nav class="nav-inner" aria-label="Primary navigation">
+      <a href="#hero" class="logo" aria-label="PORTFOLIO — home">
+        <span>PORTFOLIO</span><span class="logo-dot">.</span>
+      </a>
+      <button class="nav-toggle" id="ntoggle" aria-expanded="false" aria-controls="navlist" aria-label="Open navigation">☰</button>
+      <ul class="nav-list" id="navlist" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#certifications">Certs</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+
+    <!-- ── HERO ── -->
+    <section id="hero" aria-labelledby="hero-h">
+      <div class="wrap">
+        <div class="hero-inner">
+
+          <div>
+            <div class="hero-tag" role="status" aria-label="Status: Open to opportunities">
+              <span class="hero-tag-dot" aria-hidden="true"></span>
+              Open to opportunities
+            </div>
+            <h1 class="hero-h1" id="hero-h">
+              Building<br><em>intelligent</em><br>systems.
+            </h1>
+            <p class="hero-p">
+              Final-year B.E. student specialising in AI & Data Science.
+              I turn messy real-world datasets into clean, accurate, deployable models.
+            </p>
+            <nav class="hero-actions" aria-label="Page actions">
+              <a href="#projects" class="btn btn-amber">View Projects</a>
+              <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
+            </nav>
+          </div>
+
+         
+        <div class="scroll-hint" aria-hidden="true"><span class="scroll-arrow">↓</span><span>scroll</span></div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-strip" aria-hidden="true" role="presentation">
+      <div class="marquee-inner">
+        <span class="marquee-item">Machine Learning</span><span class="marquee-item">Python</span><span class="marquee-item">XGBoost</span><span class="marquee-item">SQL</span><span class="marquee-item">Flask</span><span class="marquee-item">R Shiny</span><span class="marquee-item">ARIMA</span><span class="marquee-item">4NF Schema</span><span class="marquee-item">Scikit-learn</span><span class="marquee-item">Pandas</span><span class="marquee-item">Data Science</span><span class="marquee-item">SMOTE</span>
+        <!-- duplicate for seamless loop -->
+        <span class="marquee-item">Machine Learning</span><span class="marquee-item">Python</span><span class="marquee-item">XGBoost</span><span class="marquee-item">SQL</span><span class="marquee-item">Flask</span><span class="marquee-item">R Shiny</span><span class="marquee-item">ARIMA</span><span class="marquee-item">4NF Schema</span><span class="marquee-item">Scikit-learn</span><span class="marquee-item">Pandas</span><span class="marquee-item">Data Science</span><span class="marquee-item">SMOTE</span>
+      </div>
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <section id="about" class="sec" aria-labelledby="about-h">
+      <div class="wrap">
+        <div class="about-grid">
+          <div class="about-body reveal-l">
+            <span class="label" aria-hidden="true">01 — About</span>
+            <h2 id="about-h">Crafting AI solutions <em style="font-style:italic;color:var(--amber)">from first principles.</em></h2>
+            <p>Third-year B.E. student (2024–2028) with a focus on <span class="about-highlight">Artificial Intelligence and Machine Learning</span> in Tiruchirappalli, Tamil Nadu. I work where mathematics meets engineering.</p>
+            <p>My strongest work lives at the intersection of clean database architecture and predictive modelling — whether that's detecting fraudulent transactions with 97% accuracy or reducing schema redundancy by 60% through 4NF decomposition.</p>
+            <p>My stack: Python, SQL, R, and Flask. I believe clean code and clean data are equally important.</p>
+          </div>
+          <div class="reveal">
+            <span class="sr-only">Quick statistics</span>
+            <dl class="stats-grid">
+              <div class="stat-box"><dt class="stat-lbl">Graduating</dt><dd class="stat-num">2026</dd></div>
+              <div class="stat-box"><dt class="stat-lbl">Projects</dt><dd class="stat-num">10+</dd></div>
+              <div class="stat-box"><dt class="stat-lbl">Certs</dt><dd class="stat-num">05</dd></div>
+              <div class="stat-box"><dt class="stat-lbl">Focus Area</dt><dd class="stat-num" style="font-size:1.4rem">AI/ML</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PROJECTS ── -->
+    <section id="projects" class="sec" aria-labelledby="proj-h">
+      <div class="wrap">
+        <div class="proj-header">
+          <div>
+            <span class="label" aria-hidden="true">02 — Projects</span>
+            <h2 id="proj-h">Selected work.</h2>
+          </div>
+          <a href="https://github.com/lmaha9799-eng" class="btn btn-ghost" target="_blank" rel="noopener noreferrer" aria-label="All projects on GitHub (opens new tab)">GitHub ↗</a>
+        </div>
+        <ul class="proj-grid" role="list" aria-label="Portfolio projects">
+
+          <li class="proj-card featured reveal" aria-labelledby="p1-title">
+            <p class="proj-num" aria-hidden="true">project_01.py</p>
+            <h3 id="p1-title">Credit Card Fraud Detection</h3>
+            <p>End-to-end ML pipeline on a highly imbalanced dataset. Applied SMOTE for oversampling, XGBoost as the classifier, and a custom threshold-tuning step to maximise recall on minority class.</p>
+            <div class="proj-tags" aria-label="Technologies">
+              <span class="proj-tag">Python</span><span class="proj-tag">XGBoost</span>
+              <span class="proj-tag">Scikit-learn</span><span class="proj-tag">SMOTE</span>
+              <span class="proj-tag">Pandas</span>
+            </div>
+            <footer class="proj-footer">
+              <span class="proj-metric" aria-label="Accuracy: 97.3%">▲ 97.3% accuracy</span>
+              <a href="#" class="proj-link" aria-label="View fraud detection project">Details →</a>
+            </footer>
+          </li>
+
+          <li class="proj-card reveal" aria-labelledby="p2-title">
+            <p class="proj-num" aria-hidden="true">project_02.sql</p>
+            <h3 id="p2-title">MVD Schema Optimizer</h3>
+            <p>Detects Multi-Valued Dependencies and decomposes relations to 4NF. Flask + Jinja2 UI for live schema analysis on a 60-row e-commerce dataset.</p>
+            <div class="proj-tags" aria-label="Technologies">
+              <span class="proj-tag">SQL</span><span class="proj-tag">Flask</span>
+              <span class="proj-tag">Pandas</span><span class="proj-tag">4NF</span>
+            </div>
+            <footer class="proj-footer">
+              <span class="proj-metric" aria-label="Redundancy reduced 60%">▼ 60% redundancy</span>
+              <a href="#" class="proj-link" aria-label="View schema optimizer project">Details →</a>
+            </footer>
+          </li>
+
+          <li class="proj-card reveal" aria-labelledby="p3-title">
+            <p class="proj-num" aria-hidden="true">project_03.R</p>
+            <h3 id="p3-title">Supply Chain Optimizer</h3>
+            <p>R Shiny app combining linear programming (lpSolve) with ARIMA-based demand forecasting and inventory intelligence modules.</p>
+            <div class="proj-tags" aria-label="Technologies">
+              <span class="proj-tag">R</span><span class="proj-tag">Shiny</span>
+              <span class="proj-tag">lpSolve</span><span class="proj-tag">ARIMA</span>
+            </div>
+            <footer class="proj-footer">
+              <span class="proj-metric" aria-label="Forecast MAPE: 8.2%">▼ 8.2% MAPE</span>
+              <a href="#" class="proj-link" aria-label="View supply chain project">Details →</a>
+            </footer>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── SKILLS ── -->
+    <section id="skills" class="sec" aria-labelledby="skills-h">
+      <div class="wrap">
+        <span class="label" aria-hidden="true">03 — Skills</span>
+        <h2 id="skills-h">Technical toolkit.</h2>
+        <div class="skills-grid" role="list" aria-label="Skill categories">
+
+          <article class="skill-col reveal" role="listitem">
+            <h3 class="skill-col-title">Languages</h3>
+            <ul aria-label="Programming languages">
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Python</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Java</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>SQL</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>R</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>HTML / CSS</li>
+            </ul>
+          </article>
+
+          <article class="skill-col reveal" role="listitem">
+            <h3 class="skill-col-title">ML / AI</h3>
+            <ul aria-label="Machine learning tools">
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Algorithms</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>XGBoost</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>ARIMA</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>SMOTE</li>
+            </ul>
+          </article>
+
+          <article class="skill-col reveal" role="listitem">
+            <h3 class="skill-col-title">Frameworks</h3>
+            <ul aria-label="Web and data frameworks">
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Flask</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>R Shiny</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Pandas / NumPy</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Jinja2</li>
+            </ul>
+          </article>
+
+          <article class="skill-col reveal" role="listitem">
+            <h3 class="skill-col-title">Databases</h3>
+            <ul aria-label="Database technologies">
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>MySQL</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>SQLite</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>Schema Design</li>
+              <li class="skill-item"><span class="skill-bar" aria-hidden="true"></span>4NF Normalisation</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CERTS ── -->
+    <section id="certifications" class="sec" aria-labelledby="certs-h">
+      <div class="wrap">
+        <span class="label" aria-hidden="true">04 — Certifications</span>
+        <h2 id="certs-h">Credentials.</h2>
+        <ul class="cert-grid" role="list" aria-label="Certifications">
+          <li class="cert-card reveal" aria-labelledby="c1">
+            <div class="cert-badge a" aria-hidden="true">🏅</div>
+            <dl><dt class="cert-name" id="c1">Data Scientist</dt><dd class="cert-org">Simplilearn · 2025</dd></dl>
+          </li>
+          <li class="cert-card reveal" aria-labelledby="c2">
+            <div class="cert-badge a" aria-hidden="true">🏅</div>
+            <dl><dt class="cert-name" id="c2">Data Science with Python</dt><dd class="cert-org">Simplilearn · 2025</dd></dl>
+          </li>
+          <li class="cert-card reveal" aria-labelledby="c3">
+            <div class="cert-badge a" aria-hidden="true">🏅</div>
+            <dl><dt class="cert-name" id="c3">Machine Learning using Python</dt><dd class="cert-org">Simplilearn · 2025</dd></dl>
+          </li>
+          <li class="cert-card reveal" aria-labelledby="c4">
+            <div class="cert-badge t" aria-hidden="true">📜</div>
+            <dl><dt class="cert-name" id="c4">Operating Systems Fundamentals(Elite Certified)</dt><dd class="cert-org">NPTEL · 2026</dd></dl>
+          </li>
+          <li class="cert-card reveal" aria-labelledby="c5">
+            <div class="cert-badge t" aria-hidden="true">📜</div>
+            <dl><dt class="cert-name" id="c5">Effective Writing(Elite Certified)</dt><dd class="cert-org">NPTEL · 2024</dd></dl>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact" class="sec" aria-labelledby="contact-h">
+      <div class="wrap">
+        <div class="contact-grid">
+
+          <div class="reveal-l">
+            <span class="label" aria-hidden="true">05 — Contact</span>
+            <h2 id="contact-h">Let's build something.</h2>
+            <p class="contact-desc">Open to internship opportunities, collaborations, and interesting problems in AI & data science. I reply within 24 hours.</p>
+            <ul class="contact-links" aria-label="Contact methods">
+              <li>
+                <a href="mailto:lmaha9799@gmail.com" class="contact-link-item" aria-label="Email lmaha9799@gmail.com">
+                  <span class="contact-link-icon" aria-hidden="true">✉</span>
+                  lmaha9799@gmail.com
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/mahalakshmi-k-812781347" class="contact-link-item" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens new tab)">
+                  <span class="contact-link-icon" aria-hidden="true">🔗</span>
+                  linkedin.com/in/mahalakshmi-k-812781347
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/lmaha9799-eng" class="contact-link-item" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens new tab)">
+                  <span class="contact-link-icon" aria-hidden="true">⌨</span>
+                  github.com/lmaha9799-eng
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="reveal">
+            <div aria-live="polite" aria-atomic="true">
+              <div class="fsuccess" id="fsuccess" role="status">
+                <span aria-hidden="true">✓</span> Message sent! I'll get back to you shortly.
+              </div>
+            </div>
+            <form class="cform" id="cform" novalidate action="#" method="post" aria-labelledby="contact-h">
+              <div class="frow">
+                <div class="fg">
+                  <label for="fname">First name <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="text" id="fname" name="first-name" autocomplete="given-name" required aria-required="true" aria-describedby="fname-err" placeholder="Aarav" />
+                  <span id="fname-err" class="ferr" role="alert">Required.</span>
+                </div>
+                <div class="fg">
+                  <label for="lname">Last name <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                  <input type="text" id="lname" name="last-name" autocomplete="family-name" required aria-required="true" aria-describedby="lname-err" placeholder="Shah" />
+                  <span id="lname-err" class="ferr" role="alert">Required.</span>
+                </div>
+              </div>
+              <div class="fg">
+                <label for="cemail">Email <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <input type="email" id="cemail" name="email" autocomplete="email" required aria-required="true" aria-describedby="cemail-err" placeholder="you@example.com" />
+                <span id="cemail-err" class="ferr" role="alert">Enter a valid email.</span>
+              </div>
+              <div class="fg">
+                <label for="csubject">Subject</label>
+                <select id="csubject" name="subject">
+                  <option value="">Select a topic…</option>
+                  <option value="internship">Internship opportunity</option>
+                  <option value="collab">Project collaboration</option>
+                  <option value="mentorship">Mentorship</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label for="cmsg">Message <span class="req" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+                <textarea id="cmsg" name="message" required aria-required="true" aria-describedby="cmsg-err" placeholder="Tell me about the opportunity…"></textarea>
+                <span id="cmsg-err" class="ferr" role="alert">Please write a message.</span>
+              </div>
+              <p class="form-note" aria-hidden="true">* required fields</p>
+              <button type="submit" class="btn-send" id="sbtn">Send message</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="wrap">
+      <div class="foot-inner">
+        <span class="foot-logo">bruhhh.dev</span>
+        <nav class="foot-nav" aria-label="Footer navigation">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <span class="foot-copy">© 2025 Bruhhh</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* nav toggle */
+    const ntog = document.getElementById('ntoggle');
+    const nlist = document.getElementById('navlist');
+    ntog.addEventListener('click', () => {
+      const o = nlist.classList.toggle('open');
+      ntog.setAttribute('aria-expanded', o);
+      ntog.textContent = o ? '✕' : '☰';
+    });
+    nlist.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nlist.classList.remove('open');
+      ntog.setAttribute('aria-expanded', false);
+      ntog.textContent = '☰';
+    }));
+
+    /* active nav */
+    const secs = document.querySelectorAll('section[id]');
+    const navAs = document.querySelectorAll('.nav-list a');
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) navAs.forEach(a => {
+          a.removeAttribute('aria-current');
+          if (a.getAttribute('href') === '#' + e.target.id) a.setAttribute('aria-current','page');
+        });
+      });
+    }, { threshold: 0.4 }).observe && secs.forEach(s => new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) navAs.forEach(a => {
+          a.removeAttribute('aria-current');
+          if (a.getAttribute('href') === '#' + e.target.id) a.setAttribute('aria-current','page');
+        });
+      });
+    }, { threshold: 0.4 }).observe(s));
+
+    /* scroll reveal */
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => { if (e.isIntersecting) { e.target.style.transitionDelay = (i * 0.07) + 's'; e.target.classList.add('in'); ro.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal, .reveal-l').forEach(el => ro.observe(el));
+
+    /* form validation */
+    const cform = document.getElementById('cform');
+    const fsuccess = document.getElementById('fsuccess');
+    function val(inp) {
+      const errEl = document.getElementById(inp.getAttribute('aria-describedby'));
+      let ok = true;
+      if (inp.required && !inp.value.trim()) ok = false;
+      if (inp.type === 'email' && inp.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value)) ok = false;
+      inp.setAttribute('aria-invalid', !ok);
+      if (errEl) errEl.classList.toggle('show', !ok);
+      return ok;
+    }
+    cform.querySelectorAll('input,textarea').forEach(f => {
+      f.addEventListener('blur', () => val(f));
+      f.addEventListener('input', () => { if (f.getAttribute('aria-invalid') === 'true') val(f); });
+    });
+    cform.addEventListener('submit', e => {
+      e.preventDefault();
+      const fields = [...cform.querySelectorAll('[required]')];
+      let ok = true;
+      fields.forEach(f => { if (!val(f)) ok = false; });
+      if (!ok) { fields.find(f => f.getAttribute('aria-invalid') === 'true')?.focus(); return; }
+      const btn = document.getElementById('sbtn');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      setTimeout(() => {
+        cform.reset(); cform.style.display = 'none';
+        fsuccess.classList.add('show'); fsuccess.focus();
+        btn.disabled = false; btn.textContent = 'Send message';
+      }, 900);
+    });
+  </script>
+</body>
+</html>
